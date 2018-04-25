@@ -38,26 +38,29 @@ local splSoundsChannel
 
 --play audio
 splSoundChannel = audio.play(splSound)
+
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- The function that moves the L across the screen
+-- The function that moves the L across the screen and rotate
 local function moveE(event)
     eSeperate.x = eSeperate.x + scrollXSpeed
     eSeperate:rotate(6)
 
+    --makes the e stop at 300 x and stops rotation
     if (eSeperate.x == 300) then
         scrollXSpeed = 0
         eSeperate.rotation = 0
     end
 end
 
--- The function that moves the E across the screen
+-- The function that moves the E across the screen and makes it rotate
 local function moveL(event)
     lSeperate.x = lSeperate.x + scrollXSpeed2
     lSeperate:rotate(-5.7)
 
+    -- makes the l stop at 680 x  and stops the rotation
     if (lSeperate.x == 680) then
         scrollXSpeed2 = 0
         lSeperate.rotation = 0
@@ -68,22 +71,24 @@ end
 local function moveGames(event)
     gamesSeperate.y = gamesSeperate.y + scrollYSpeed2
 
+    -- makes the games image stop moving at 513 x
     if (gamesSeperate.y == 513) then
         scrollYSpeed2 = 0
     end
 end
 
--- The function that moves the Hyphen across the screen
+-- The function that moves the Hyphen across the screen and makes it slowly become transparent
 local function moveHyphen(event)
     hyphenSeperate.y = hyphenSeperate.y + scrollYSpeed
     hyphenSeperate.alpha = hyphenSeperate.alpha + 0.03
 
+    -- makes the hyphen stop moving at 270 y
     if (hyphenSeperate.y == 270) then
         scrollYSpeed = 0
     end
 
 end
-
+-- makes the screen transition to the main menu
 local function gotoMainMenu( )
     composer.gotoScene( "main_menu", {effect = "zoomOutInFadeRotate", time = 500})
 end
@@ -100,31 +105,31 @@ function scene:create( event )
     -- set the background to be black
     display.setDefault("background", 0, 0, 0)
 
-    -- Insert the L image
+    -- Insert the E image
     eSeperate = display.newImageRect("Images/E Seperate.png", 300, 300)
 
-    -- set the initial x and y position of the terry
+    -- set the initial x and y position of the E
     eSeperate.x = 0
     eSeperate.y = display.contentHeight/3
 
-    -- Insert the terry image
+    -- Insert the L image
     lSeperate = display.newImageRect("Images/L Seperate.png", 300, 300)
 
-    -- set the initial x and y position of the terry
+    -- set the initial x and y position of the L
     lSeperate.x = 1000
     lSeperate.y = display.contentHeight/3
 
-    -- Insert the terry image
+    -- Insert the Games image
     gamesSeperate = display.newImageRect("Images/Games Seperate.png", 400, 200)
 
-    -- set the initial x and y position of the terry
+    -- set the initial x and y position of the Games
     gamesSeperate.x = 500
     gamesSeperate.y = display.contentHeight/3*3
 
-    -- Insert the terry image
+    -- Insert the Hyphen image
     hyphenSeperate = display.newImageRect("Images/Hyphen Seperate.png", 150, 100)
 
-    -- set the initial x and y position of the terry
+    -- set the initial x and y position of the Hyphen
     hyphenSeperate.x = 490
     hyphenSeperate.y = 0
     --set hyphen to be transparent
@@ -145,10 +150,6 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-
-    -----------------------------------------------------------------------------------------
-
-    local phase = event.phase
 
     -----------------------------------------------------------------------------------------
 

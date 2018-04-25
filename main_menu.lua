@@ -151,7 +151,7 @@ function scene:create( event )
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( instructionsButton )
-
+ 
     
 
 end -- function scene:create( event )   
