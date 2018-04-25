@@ -24,25 +24,69 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
  
 -- The local variables for this scene
-local terry
-local scrollXSpeed = 17
-local scrollYSpeed = -3
-local powerSound = audio.loadSound("Sounds/power sound effect.mp3")
-local jungleSoundsChannel
+local lSeperate
+local eSeperate
+local gamesSeperate
+local hyphenSeperate
+local scrollXSpeed = 5
+local scrollXSpeed2 = -5
+local scrollYSpeed = 5
+local scrollYSpeed2 = -3
+local splSound = audio.loadSound("Sounds/Splashscreen Music.mp3")
+local splSoundsChannel
 
 
+--play audio
+splSoundChannel = audio.play(splSound)
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- The function that moves the terry across the screen
-local function moveTerry()
-    terry.x = terry.x + scrollXSpeed
-    terry.y = terry.y + scrollYSpeed
-    terry:rotate(20)
+-- The function that moves the L across the screen
+local function moveE(event)
+    eSeperate.x = eSeperate.x + scrollXSpeed
+    eSeperate:rotate(6)
+
+    if (eSeperate.x == 300) then
+        scrollXSpeed = 0
+        eSeperate.rotation = 0
+    end
 end
 
+-- The function that moves the E across the screen
+local function moveL(event)
+    lSeperate.x = lSeperate.x + scrollXSpeed2
+    lSeperate:rotate(-5.7)
 
+    if (lSeperate.x == 680) then
+        scrollXSpeed2 = 0
+        lSeperate.rotation = 0
+    end
+end
+
+-- The function that moves the Games across the screen
+local function moveGames(event)
+    gamesSeperate.y = gamesSeperate.y + scrollYSpeed2
+
+    if (gamesSeperate.y == 513) then
+        scrollYSpeed2 = 0
+    end
+end
+
+-- The function that moves the Hyphen across the screen
+local function moveHyphen(event)
+    hyphenSeperate.y = hyphenSeperate.y + scrollYSpeed
+    hyphenSeperate.alpha = hyphenSeperate.alpha + 0.03
+
+    if (hyphenSeperate.y == 270) then
+        scrollYSpeed = 0
+    end
+
+end
+
+local function gotoMainMenu( )
+    composer.gotoScene( "main_menu", {effect = "zoomOutInFadeRotate", time = 500})
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -56,15 +100,41 @@ function scene:create( event )
     -- set the background to be black
     display.setDefault("background", 0, 0, 0)
 
-    -- Insert the terry image
-    terry = display.newImageRect("Images/terry.png", 1000, 500)
+    -- Insert the L image
+    eSeperate = display.newImageRect("Images/E Seperate.png", 300, 300)
 
     -- set the initial x and y position of the terry
-    terry.x = 100
-    terry.y = display.contentHeight/2
+    eSeperate.x = 0
+    eSeperate.y = display.contentHeight/3
+
+    -- Insert the terry image
+    lSeperate = display.newImageRect("Images/L Seperate.png", 300, 300)
+
+    -- set the initial x and y position of the terry
+    lSeperate.x = 1000
+    lSeperate.y = display.contentHeight/3
+
+    -- Insert the terry image
+    gamesSeperate = display.newImageRect("Images/Games Seperate.png", 400, 200)
+
+    -- set the initial x and y position of the terry
+    gamesSeperate.x = 500
+    gamesSeperate.y = display.contentHeight/3*3
+
+    -- Insert the terry image
+    hyphenSeperate = display.newImageRect("Images/Hyphen Seperate.png", 150, 100)
+
+    -- set the initial x and y position of the terry
+    hyphenSeperate.x = 490
+    hyphenSeperate.y = 0
+    --set hyphen to be transparent
+    hyphenSeperate.alpha = 0
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( terry )
+    sceneGroup:insert( lSeperate )
+    sceneGroup:insert( eSeperate )
+    sceneGroup:insert( gamesSeperate )
+    sceneGroup:insert( hyphenSeperate )
 
 end -- function scene:create( event )
 
@@ -88,15 +158,15 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        -- start the splash screen music
-        jungleSoundsChannel = audio.play(powerSound )
 
-        -- Call the moveBeetleship function as soon as we enter the frame.
-        Runtime:addEventListener("enterFrame", moveTerry)
+        -- Call the moveL,E,Games,Hyphen function as soon as we enter the frame.
+        Runtime:addEventListener("enterFrame", moveL)
+        Runtime:addEventListener("enterFrame", moveE)
+        Runtime:addEventListener("enterFrame", moveGames)
+        Runtime:addEventListener("enterFrame", moveHyphen)
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 3000, gotoMainMenu)          
-        
+        timer.performWithDelay ( 4000, gotoMainMenu)            
     end
 
 end --function scene:show( event )
@@ -123,7 +193,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         
         -- stop the jungle sounds channel for this screen
-        audio.stop(jungleSoundsChannel)
+        audio.stop(splSoundsChannel)
     end
 
 end --function scene:hide( event )
