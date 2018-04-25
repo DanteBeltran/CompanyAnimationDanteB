@@ -101,14 +101,14 @@ function scene:create( event )
     display.setDefault("background", 0, 0, 0)
 
     -- Insert the E image
-    eSeparate = display.newImageRect("Images/E Separate.png", 250, 250)
+    eSeparate = display.newImageRect("Images/E Separate.png", 230, 300)
 
     -- set the initial x and y position of the E
     eSeparate.x = 0
     eSeparate.y = display.contentHeight/3
 
     -- Insert the L image
-    lSeparate = display.newImageRect("Images/L Separate.png", 250, 250)
+    lSeparate = display.newImageRect("Images/L Separate.png", 230, 300)
 
     -- set the initial x and y position of the L
     lSeparate.x = 1000
